@@ -19,11 +19,9 @@ Built for **Legends of Learning** platform as an interactive K-12 science game.
 (Note: itch.io page appears unavailable/404 currently — contact me for a build or alternative access if needed.)
 
 ### Official Gameplay & Review Video (from Legends of Learning)
-<div align="center">
   [![Escape Gameplay Thumbnail](https://img.youtube.com/vi/NvAsYq1hBYM/0.jpg)](https://www.youtube.com/watch?v=NvAsYq1hBYM)
   <br>
   <em>Click the image to watch the full video on YouTube (Legends of Learning showcase)</em>
-</div>
 
 ### Tech Stack
 - Unity (C#)
