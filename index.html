@@ -3,30 +3,48 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>%UNITY_WEB_NAME%</title>
+    <title>Escape</title>
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        font-family: Arial, sans-serif;
-      }
-      #gameContainer {
-        background: #222;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      }
+      body { margin: 0; padding: 0; background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: Arial, sans-serif; }
+      #unity-canvas { background: #222; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+      #loading-container { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.8); padding: 25px 50px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 10; backdrop-filter: blur(4px); }
+      #loading-bar { width: 350px; height: 16px; background: #333; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid #555; }
+      #loading-progress { width: 0%; height: 100%; background: linear-gradient(90deg, #4CAF50, #81C784); transition: width 0.1s ease; }
+      #loading-text { color: #fff; font-size: 18px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; font-family: sans-serif; margin-bottom: 5px; }
     </style>
-    <script src="%UNITY_WEBGL_LOADER_URL%"></script>
-    <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");
-    </script>
   </head>
   <body>
-    <div id="gameContainer" style="width: %UNITY_WIDTH%px; height: %UNITY_HEIGHT%px;"></div>
+    <canvas id="unity-canvas" width=1024 height=576></canvas>
+    <div id="loading-container">
+      <div id="loading-text">Loading... 0%</div>
+      <div id="loading-bar">
+        <div id="loading-progress"></div>
+      </div>
+    </div>
+    <script src="Build/Escape.loader.js"></script>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingContainer = document.querySelector("#loading-container");
+      var loadingProgress = document.querySelector("#loading-progress");
+      var loadingText = document.querySelector("#loading-text");
+
+      createUnityInstance(canvas, {
+        dataUrl: "Build/Escape.data.br",
+        frameworkUrl: "Build/Escape.framework.js.br",
+        codeUrl: "Build/Escape.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Play Studio",
+        productName: "Escape",
+        productVersion: "1.0",
+      }, (progress) => {
+        var percentage = Math.round(progress * 100);
+        loadingProgress.style.width = percentage + "%";
+        loadingText.innerText = "Loading... " + percentage + "%";
+      }).then((unityInstance) => {
+        loadingContainer.style.display = "none";
+      }).catch((message) => {
+        alert(message);
+      });
+    </script>
   </body>
 </html>
